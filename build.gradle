@@ -47,3 +47,4 @@ jacocoTestReport {
         xml.enabled true
     }
 }
+
