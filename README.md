@@ -5,7 +5,8 @@
     - 무인결제 시스템을 기획하며 회원관리와 매출관리 기능을 추가하면 매장 관리시스템으로도 활용 가능 할것이라 생각하여 최종적으로 독립서점 매장관리시스템을 기획 하게 되었다.
 - 프로젝트 구조
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/bfd457df-036e-4605-a468-b2cb2ddf62d0/Untitled.png)
+![ReadMe1](https://user-images.githubusercontent.com/79639143/198517784-501b7afe-2321-44b3-ba44-e11d2551f560.png)
+
 
 - 사용 기술스택
     - SpringBoot
@@ -65,4 +66,4 @@
             - 도서를 등록할 수 있다.
             - 도서의 재고를 수정할 수 있다.
 - ERD
-- ![스크린샷 2022-10-24 오전 12.24.59.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/6fa50bf0-b04d-4ff2-b741-aa05faa32b6b/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA_2022-10-24_%E1%84%8B%E1%85%A9%E1%84%8C%E1%85%A5%E1%86%AB_12.24.59.png)
+    <img width="1440" alt="스크린샷 2022-09-14 오후 7 58 58" src="https://user-images.githubusercontent.com/79639143/198517947-bb19efe9-e9af-490c-a354-34b940371f44.png">
