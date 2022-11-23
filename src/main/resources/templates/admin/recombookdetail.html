@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>관리자 화면 </title>
+    <style>
+        .detail table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .detail table th, .detail table td {
+            border:solid 1px #000;
+        }
+
+    </style>
+</head>
+<body>
+    <div th:replace="/fragments/layout.html :: fragment-admin-body-menu"></div>
+    <h1>관리자 추천도서 관리 - 추천도서 상세 정보</h1>
+
+
+    <div class="detail" >
+
+        <table>
+            <tbody>
+                <tr>
+                    <th>도서제목</th>
+                    <td>
+                        <p th:text="${book.title}"></p>
+                    </td>
+                </tr>
+                <tr>
+                    <th>작가</th>
+                    <td>
+                        <p th:text="${book.writer}"></p>
+                    </td>
+                </tr>
+                <tr>
+                    <th>출판사</th>
+                    <td>
+                        <p th:text="${book.publisher}"></p>
+                    </td>
+                </tr>
+                <tr>
+                    <th>등록일자</th>
+                    <td>
+                        <p th:text="${book.regDt}"></p>
+                    </td>
+                </tr>
+                <tr>
+                    <th>추천사</th>
+                    <td>
+                        <div>
+                            <form method="post" action="/admin/recombookupd.do">
+                                <input th:value="${book.isbn}" type="hidden" name="isbn"/>
+                                <input th:value="${book.content}" type="text" name="content"/>
+                                <button type="submit">수정</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>상태</th>
+                    <td>
+                        <div>
+                            <form method="post" action="/admin/recombookdel.do">
+                                <input th:value="${book.isbn}" type="hidden" name="isbn"/>
+                                <button type="submit">삭제</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+
+        <div>
+            <a href="/admin/recommend.do"> 목록 </a>
+        </div>
+
+    </div>
+
+
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title> 여름 서가 </title>
+  <style>
+    .list table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .list table th, .list table td {
+      border:solid 1px #000;
+    }
+
+    .search-form {
+      position: relative;
+      padding: 5px 0 10px 0;
+      text-align: right;
+    }
+    .search-form .total-count {
+      position: absolute;
+      left: 0; top: 0;
+      height: 20px;
+      float: left;
+    }
+
+    .pager {
+      margin-top: 20px;
+      text-align: center;
+    }
+    .pager a.on {
+      font-weight: bold;
+      color: red;
+    }
+  </style>
+</head>
+<body>
+<h1> 도서 검색 </h1>
+<div th:replace="/fragments/layout.html :: fragment-body-menu"></div>
+
+<hr>
+<div>
+  <a href="/member/myorderbook.do"> 내 주문도서 조회 </a>
+</div>
+<div class="list">
+
+  <div class="search-form">
+
+    <form method="get">
+      <select name="searchType">
+        <option th:selected="${#strings.equals(param.searchType, 'title')}" value="title">도서제목</option>
+        <option th:selected="${#strings.equals(param.searchType, 'writer')}" value="writer">저자</option>
+      </select>
+      <input th:value="${param.searchValue}" type="search" name="searchValue" placeholder="검색어 입력"/>
+      <button type="submit">검색</button>
+    </form>
+  </div>
+
+  <table>
+    <thead>
+    <tr>
+      <th>
+        도서관리번호
+      </th>
+      <th>
+        표지
+      </th>
+      <th>
+        도서제목
+      </th>
+      <th>
+        저자
+      </th>
+      <th>
+        출판사
+      </th>
+      <th>
+        가격
+      </th>
+      <th>
+        주문수량
+      </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="x : ${list}">
+      <td>
+        <a th:text="${x.isbn}"
+          000-000-000</a>
+      </td>
+      <td th:text="${x.imgUrl}">이미지</td>
+      <td>
+        <p th:text="${x.title}">제목</p>
+      </td>
+      <td>
+      <p th:text="${x.writer}">저자</p>
+      </td>
+      <td>
+        <p th:text="${x.publisher}">출판사</p>
+      </td>
+      <td>
+        <p th:text="${x.price}">10000</p>
+      </td>
+      <td>
+        <div>
+          <form method="post" action="/member/orderbook.do">
+            <input th:type="text" name="orderCount"/>
+            <input th:value="${x.isbn}" type="hidden" name="isbn"/>
+            <input th:value="${param.searchType}" type="hidden" name="searchType">
+            <input th:value="${param.searchValue}" type="hidden" name="searchValue">
+            <button type="submit">주문신청</button>
+          </form>
+        </div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+</div>
+
+
+</body>
+</html>

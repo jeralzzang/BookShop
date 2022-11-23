@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bookshop.bookshopmanager.admin.main.mapper.AdminMainMemberMapper">
+
+    <sql id="MemberSelectListWhere">
+        <if test="searchType != null and searchValue != null">
+            <choose>
+                <when test="searchType == 'userId'">
+                    and id like concat('%', #{searchValue}, '%')
+                </when>
+                <when test="searchType == 'userName'">
+                    and nick_name like concat('%', #{searchValue}, '%')
+                </when>
+                <otherwise>
+                    and
+                    (
+                    id like concat('%', #{searchValue}, '%')
+                    or
+                    nick_name like concat('%', #{searchValue}, '%')
+                    )
+                </otherwise>
+            </choose>
+        </if>
+
+    </sql>
+
+    <select id="getMemberListCount" resultType="long">
+        select count(1)
+        from member
+        where 1 = 1
+            <include refid="MemberSelectListWhere"/>
+    </select>
+
+    <select id="getMemberList" resultType="com.bookshop.bookshopmanager.admin.main.dto.MemberDto">
+        select no, id, nick_name, reg_dt, udt_dt, status, admin_yn
+        from member
+        where 1 = 1
+            <include refid="MemberSelectListWhere"/>
+
+        limit #{pageStart}, #{pageEnd}
+    </select>
+
+    <select id="getMemberUserNo" resultType="int">
+        select no
+        from member
+        where id = #{userId}
+    </select>
+
+</mapper>

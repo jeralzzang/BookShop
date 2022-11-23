@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>회원 정보수정</title>
+  <style>
+    .detail table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .detail table th, .detail table td {
+      border:solid 1px #000;
+    }
+  </style>
+</head>
+<body>
+<h1>회원 정보 수정</h1>
+<div th:replace="/fragments/layout.html :: fragment-body-menu"></div>
+
+<div class="detail" >
+
+  <table>
+    <tbody>
+    <form method="post" action="/member/membermod.do">
+    <tr>
+      <th>아이디</th>
+      <td>
+        <p th:text="${member.id}"></p>
+      </td>
+    </tr>
+    <tr>
+      <th>닉네임</th>
+      <td>
+        <input th:type="text" th:value ="${member.nickName}" name="nickName"/>
+      </td>
+    </tr>
+    <tr>
+      <th>가입일</th>
+      <td>
+        <p th:text="${member.regDt}"></p>
+      </td>
+    </tr>
+
+    <tr>
+      <th>비밀번호</th>
+      <td>
+        <input type="password" name="password" placeholder="비밀번호 입력" />
+      </td>
+    </tr>
+    <tr>
+      <th>비밀번호확인</th>
+      <td>
+        <input type="password" name="rePassword" placeholder="비밀번호 입력 확인"/>
+      </td>
+    </tr>
+
+    <tr>
+      <th></th>
+      <td>
+        <div>
+            <input th:value="${member.no}" type="hidden" name="no"/>
+            <button type="submit">정보 수정</button>
+        </div>
+      </td>
+    </tr>
+    </form>
+    </tbody>
+  </table>
+</div>
+
+</body>
+</html>

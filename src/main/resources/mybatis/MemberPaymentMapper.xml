@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bookshop.bookshopmanager.member.payment.mapper.MemberPaymentMapper">
+
+    <select id="getPaymentKey" resultType="int">
+        select ifnull(max(pay_no),1)
+        from pay_master
+        where pay_dt = #{payDt}
+    </select>
+
+    <select id="getRecomBookList" resultType="com.bookshop.bookshopmanager.admin.main.dto.RecomBookDto">
+        select a.isbn isbn, b.title title, a.content content,
+               b.img_url img_url, b.publisher publisher,
+               b.writer writer, b.price price
+        from book_recom a, book b
+        where a.isbn = b.isbn
+        order by a.reg_dt
+    </select>
+</mapper>

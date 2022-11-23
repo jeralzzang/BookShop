@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>여름서가</title>
+  <style>
+    .list table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .list table th, .list table td {
+      border:solid 1px #000;
+    }
+
+    .search-form {
+      position: relative;
+      padding: 5px 0 10px 0;
+      text-align: right;
+    }
+    .search-form .total-count {
+      position: absolute;
+      left: 0; top: 0;
+      height: 20px;
+      float: left;
+    }
+
+    .pager {
+      margin-top: 20px;
+      text-align: center;
+    }
+    .pager a.on {
+      font-weight: bold;
+      color: red;
+    }
+  </style>
+</head>
+<body>
+<h1> 여름 서가 </h1>
+<div class="main" th:replace="/fragments/layout.html :: fragment-body-menu">
+</div>
+<hr>
+
+<div class="list">
+
+  <table>
+    <thead>
+    <tr>
+      <th>
+        표지
+      </th>
+      <th>
+        도서제목
+      </th>
+      <th>
+        저자
+      </th>
+      <th>
+        출판사
+      </th>
+      <th>
+        추천사
+      </th>
+      <th>
+        가격
+      </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="x : ${list}">
+      <td th:text="${x.imgUrl}">이미지</td>
+      <td>
+        <a th:text="${x.title}">제목</a>
+      </td>
+      <td>
+        <p th:text="${x.writer}">저자</p>
+      </td>
+      <td>
+        <p th:text="${x.publisher}">출판사</p>
+      </td>
+      <td>
+        <p th:text="${x.content}">추천합니다.</p>
+      </td>
+      <td>
+        <p th:text="${x.price}">10000</p>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+</div>
+
+</body>
+</html>

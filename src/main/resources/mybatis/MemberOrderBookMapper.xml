@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bookshop.bookshopmanager.member.orderbook.mapper.MemberOrderBookMapper">
+
+    <sql id="OrderBookSelectListWhere">
+            <choose>
+                <when test="status == 'REQ'">
+                    and a.status = '신청'
+                </when>
+                <when test="status == 'ACC'">
+                    and a.status = '수락'
+                </when>
+                <when test="status == 'REF'">
+                    and a.status = '거절'
+                </when>
+                 <when test="status == 'ING'">
+                    and a.status = '주문중'
+                 </when>
+                <when test="status == 'SUCC'">
+                    and a.status = '판매완료'
+                </when>
+                <when test="status == 'CAN'">
+                    and a.status = '신청취소'
+                </when>
+            </choose>
+    </sql>
+
+    <select id="getOrderBookList" resultType="com.bookshop.bookshopmanager.member.orderbook.dto.MemberOrderBookDto">
+        select a.no no, b.title title, b.writer writer,
+        b.publisher publisher, b.img_url img_url,
+        a.count order_count, (a.count * b.price) price,
+        a.order_date order_date, a.status status
+        from book_order a, book b
+        where a.isbn = b.isbn
+        and a.user_no = #{userNo}
+        order by order_date desc
+            <include refid="OrderBookSelectListWhere"/>
+    </select>
+
+</mapper>

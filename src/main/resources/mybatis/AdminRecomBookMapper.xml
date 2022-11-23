@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bookshop.bookshopmanager.admin.main.mapper.AdminRecomBookMapper">
+
+    <select id="getRecomBookListCount" resultType="long">
+        select count(1)
+        from book_recom
+    </select>
+
+    <select id="getRecomBookList" resultType="com.bookshop.bookshopmanager.admin.main.dto.RecomBookDto">
+        select a.isbn isbn, b.title title, a.content content,
+               b.img_url img_url, b.publisher publisher,
+               b.writer writer, b.price price
+        from book_recom a, book b
+        where a.isbn = b.isbn
+        order by a.reg_dt
+    </select>
+
+    <select id="getRecomBook" resultType="com.bookshop.bookshopmanager.admin.main.dto.RecomBookDto">
+        select a.isbn isbn, b.title title, a.content content,
+               b.img_url img_url, b.publisher publisher,
+               b.writer writer, b.price price, a.reg_dt reg_dt
+        from book_recom a, book b
+        where a.isbn = b.isbn
+        and a.isbn = #{isbn}
+    </select>
+</mapper>

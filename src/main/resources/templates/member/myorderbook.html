@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title> 여름 서가 </title>
+  <style>
+    .list table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .list table th, .list table td {
+      border:solid 1px #000;
+    }
+
+    .search-form {
+      position: relative;
+      padding: 5px 0 10px 0;
+      text-align: right;
+    }
+    .search-form .total-count {
+      position: absolute;
+      left: 0; top: 0;
+      height: 20px;
+      float: left;
+    }
+
+    .pager {
+      margin-top: 20px;
+      text-align: center;
+    }
+    .pager a.on {
+      font-weight: bold;
+      color: red;
+    }
+  </style>
+</head>
+<body>
+<h1> 내 주문도서 검색 </h1>
+<div th:replace="/fragments/layout.html :: fragment-body-menu"></div>
+
+<hr>
+<div class="list">
+  <div class="search-form">
+
+    <form method="get">
+      <select name="status">
+        <option th:selected="${#strings.equals(param.searchType, 'REQ')}" value="REQ">신청</option>
+        <option th:selected="${#strings.equals(param.searchType, 'ACC')}" value="ACC">수락</option>
+        <option th:selected="${#strings.equals(param.searchType, 'REF')}" value="REF">거절</option>
+        <option th:selected="${#strings.equals(param.searchType, 'ING')}" value="ING">주문중</option>
+        <option th:selected="${#strings.equals(param.searchType, 'SUCC')}" value="SUCC">판매완료</option>
+        <option th:selected="${#strings.equals(param.searchType, 'CAN')}" value="CAN">신청취소</option>
+      </select>
+      <button type="submit">검색</button>
+    </form>
+  </div>
+  <table>
+    <thead>
+    <tr>
+      <th>
+        표지
+      </th>
+      <th>
+        도서제목
+      </th>
+      <th>
+        저자
+      </th>
+      <th>
+        출판사
+      </th>
+      <th>
+        총가격
+      </th>
+      <th>
+        주문수량
+      </th>
+      <th>
+        상태
+      </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="x : ${list}">
+      <td th:text="${x.imgUrl}">이미지</td>
+      <td>
+        <p th:text="${x.title}">제목</p>
+      </td>
+      <td>
+      <p th:text="${x.writer}">저자</p>
+      </td>
+      <td>
+        <p th:text="${x.publisher}">출판사</p>
+      </td>
+      <td>
+        <p th:text="${x.price}">10000</p>
+      </td>
+      <td>
+        <p th:text="${x.orderCount}">1</p>
+      </td>
+      <td>
+        <div>
+          <form method="post" action="/member/myorderbookdelete.do">
+            <p th:text="${x.status}">신청</p>
+            <input th:value="${x.no}" type="hidden" name="orderNo"/>
+      <!--      <button type="submit">취소</button>-->
+          </form>
+        </div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bookshop.bookshopmanager.member.book.mapper.MemberBookMapper">
+
+    <sql id="bookSelectListWhere">
+        <if test="searchType != null and searchValue != null">
+            <choose>
+                <when test="searchType == 'title'">
+                    and title like concat('%', #{searchValue}, '%')
+                </when>
+                <when test="searchType == 'writer'">
+                    and writer like concat('%', #{searchValue}, '%')
+                </when>
+            </choose>
+        </if>
+
+    </sql>
+
+    <select id="getOrderBookListCount" resultType="long">
+        select count(1)
+        from book
+        where 1=1
+            <include refid="bookSelectListWhere"/>
+    </select>
+
+    <select id="getMemberBookList" resultType="com.bookshop.bookshopmanager.member.book.dto.MemberBookDto">
+        select isbn, title, writer, count,
+               publisher, price, img_url
+        from book
+        where count > 0
+        order by isbn
+            <include refid="bookSelectListWhere"/>
+    </select>
+    <select id="getMemberBook" resultType="com.bookshop.bookshopmanager.member.book.dto.MemberBookDto">
+        select isbn, title, writer, count,
+        publisher, price, img_url
+        from book
+        where isbn = #{isbn}
+    </select>
+</mapper>

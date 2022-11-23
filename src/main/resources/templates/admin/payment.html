@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>관리자 화면 </title>
+  <style>
+    .list table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .list table th, .list table td {
+      border:solid 1px #000;
+    }
+
+    .search-form {
+      position: relative;
+      padding: 5px 0 10px 0;
+      text-align: right;
+    }
+    .search-form .total-count {
+      position: absolute;
+      left: 0; top: 0;
+      height: 20px;
+      float: left;
+    }
+
+    .pager {
+      margin-top: 20px;
+      text-align: center;
+    }
+    .pager a.on {
+      font-weight: bold;
+      color: red;
+    }
+  </style>
+</head>
+<body>
+<h1> 매출 관리 </h1>
+<div th:replace="/fragments/layout.html :: fragment-admin-body-menu"></div>
+
+<hr>
+<div class="list">
+
+  <div class="search-form">
+    <p class="total-count">전체 <span th:text="${totalCount}"></span>건</p>
+
+    <form method="get">
+      <select name="searchType">
+        <option th:selected="${#strings.equals(param.searchType, 'all')}" value="all">전체</option>
+        <option th:selected="${#strings.equals(param.searchType, 'card')}" value="card">카드</option>
+        <option th:selected="${#strings.equals(param.searchType, 'npay')}" value="npay">네이버페이</option>
+        <option th:selected="${#strings.equals(param.searchType, 'kpay')}" value="kpay">카카오페이</option>
+        <option th:selected="${#strings.equals(param.searchType, 'phone')}" value="phone">핸드폰결제</option>
+      </select>
+      <input th:value="${param.searchValue}" type="search" name="searchValue" placeholder="20221101-20221109"/>
+      <button type="submit">검색</button>
+    </form>
+  </div>
+
+  <table>
+    <thead>
+    <tr>
+      <th>
+        판매일
+      </th>
+      <th>
+        결제금액
+      </th>
+      <th>
+        결제수단
+      </th>
+      <th>
+        구매자아이디
+      </th>
+      <th>
+        상세
+      </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="x : ${list}">
+      <td>
+        <a th:text="${x.payDt}"
+          000-000-000</a>
+      </td>
+      <td th:text="${x.priceTot}">이미지</td>
+      <td>
+        <p th:text="${x.payKind}">제목</p>
+      </td>
+      <td>
+      <p th:text="${x.userId}">저자</p>
+      </td>
+      <td>
+        <div>
+          <form method="post" action="/admin/paymentdetail.do">
+            <input th:value ="${x.payDt}" type="hidden" name="payDt"/>
+            <input th:value="${x.payNo}" type="hidden" name="payNo"/>
+            <button type="submit">상세정보</button>
+          </form>
+        </div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <div class="pager" th:utext="${pager}">
+  </div>
+</div>
+
+
+</body>
+</html>

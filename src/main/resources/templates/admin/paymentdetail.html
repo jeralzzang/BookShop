@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>관리자 화면</title>
+  <style>
+    .detail table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .detail table th, .detail table td {
+      border:solid 1px #000;
+    }
+  </style>
+</head>
+<body>
+<h1>매출 상세</h1>
+<div th:replace="/fragments/layout.html :: fragment-admin-body-menu"></div>
+
+<div class="detail" >
+
+  <table>
+    <thead>
+    <tr>
+      <th>
+        판매일
+      </th>
+      <th>
+        도서번호
+      </th>
+      <th>
+        도서제목
+      </th>
+      <th>
+        작가
+      </th>
+      <th>
+        출판사
+      </th>
+      <th>
+        판매권수
+      </th>
+      <th>
+        판매금액
+      </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="list : ${list}">
+      <td>
+        <p th:text="${list.payDt}"></p>
+      </td>
+      <td>
+        <p th:text="${list.isbn}"></p>
+      </td>
+      <td>
+        <p th:text="${list.title}"></p>
+      </td>
+      <td>
+        <p th:text="${list.writer}"></p>
+      </td>
+      <td>
+        <p th:text="${list.publisher}"></p>
+      </td>
+      <td>
+        <p th:text="${list.count}"></p>
+      </td>
+      <td>
+        <p th:text="${list.price}"></p>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<div>
+  <button onclick="history.back()">뒤로가기</button>
+</div>
+
+</body>
+</html>

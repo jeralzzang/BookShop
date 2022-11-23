@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title> 여름 서가 </title>
+  <style>
+    .list table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .list table th, .list table td {
+      border:solid 1px #000;
+    }
+
+    .search-form {
+      position: relative;
+      padding: 5px 0 10px 0;
+      text-align: right;
+    }
+    .search-form .total-count {
+      position: absolute;
+      left: 0; top: 0;
+      height: 20px;
+      float: left;
+    }
+
+    .pager {
+      margin-top: 20px;
+      text-align: center;
+    }
+    .pager a.on {
+      font-weight: bold;
+      color: red;
+    }
+  </style>
+</head>
+<body>
+<h1> 장바구니 </h1>
+<div th:replace="/fragments/layout.html :: fragment-body-menu"></div>
+
+<hr>
+<div class="list">
+  <table>
+    <thead>
+    <tr>
+      <th>
+        표지
+      </th>
+      <th>
+        도서제목
+      </th>
+      <th>
+        저자
+      </th>
+      <th>
+        출판사
+      </th>
+      <th>
+        주문수량
+      </th>
+      <th>
+        주문금액
+      </th>
+      <th>
+        비고
+      </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="x : ${list}">
+      <td>
+        <a th:text="${x.imgUrl}"
+          000-000-000</a>
+      </td>
+      <td th:text="${x.title}">이미지</td>
+      <td>
+        <p th:text="${x.writer}">제목</p>
+      </td>
+      <td>
+      <p th:text="${x.publisher}">저자</p>
+      </td>
+      <td>
+        <p th:text="${x.totCount}">출판사</p>
+      </td>
+      <td>
+        <p th:text="${x.totPrice}">10000</p>
+      </td>
+      <td>
+        <div>
+          <form method="post" action="/member/cartdelete.do">
+            <input th:value="${x.isbn}" type="hidden" name="isbn"/>
+            <button type="submit">삭제</button>
+          </form>
+        </div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <table>
+    <thead>
+      <th>
+        총 건수
+      </th>
+      <th>
+        총 금액
+      </th>
+    </thead>
+    <tbody>
+      <td>
+        <p th:text="${totalcnt}">0</p>
+      </td>
+      <td>
+        <p th:text="${totalprice}">0</p>
+      </td>
+    </tbody>
+  </table>
+
+  <table>
+    <thead>
+    <th>
+      결제수단
+    </th>
+    <th>
+      결제
+    </th>
+    </thead>
+    <tbody>
+    <form method="post" action="/member/payment.do">
+      <td>
+        <select name="paykind">
+          <option th:value="card">카드</option>
+          <option th:value="npay">네이버페이</option>
+          <option th:value="kpay">카카오페이</option>
+          <option th:value="phone">핸드폰결제</option>
+        </select>
+      </td>
+      <td>
+        <button type="submit">결제</button>
+      </td>
+    </form>
+    </tbody>
+  </table>
+
+</div>
+
+<div>
+
+</div>
+
+</body>
+</html>

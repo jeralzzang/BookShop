@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bookshop.bookshopmanager.admin.payment.mapper.AdminPaymentMapper">
+
+  <sql id="paymentSelectListWhere">
+    <if test="searchType != null">
+        and pay_kind = #{payKind}
+    </if>
+    <if test ="searchValue != null">
+        and pay_dt between #{startDt} and #{endDt}
+    </if>
+  </sql>
+
+
+  <select id="getPaymentCount" resultType="long">
+    select count(1)
+    from pay_master
+    where result_code = #{payResult}
+    <include refid="paymentSelectListWhere"/>
+  </select>
+
+  <select id="getPaymentMasterList" resultType="com.bookshop.bookshopmanager.admin.payment.dto.AdminPaymentMasterDto">
+    select a.pay_dt pay_dt, a.pay_no pay_no, a.price_tot price_tot,
+           a.pay_kind pay_kind, b.id user_id
+    from pay_master a, member b
+    where a.user_no = b.no
+    and result_code = #{payResult}
+    <include refid="paymentSelectListWhere"/>
+    order by pay_dt desc, pay_no desc
+    limit #{pageStart}, #{pageEnd}
+  </select>
+
+  <select id="getPaymentDetailList" resultType="com.bookshop.bookshopmanager.admin.payment.dto.AdminPaymentDetailDto">
+        select a.pay_dt pay_dt, a.isbn isbn, a.price price,
+               a.count count, b.title title, b.writer writer,
+               b.publisher publisher
+        from pay_detail a, book b
+        where a.isbn = b.isbn
+        and a.pay_dt = #{payDt}
+        and a.pay_no = #{payNo}
+        order by a.pay_seq
+    </select>
+</mapper>

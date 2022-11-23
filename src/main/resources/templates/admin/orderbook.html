@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>관리자 화면 </title>
+  <style>
+    .list table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .list table th, .list table td {
+      border:solid 1px #000;
+    }
+
+    .search-form {
+      position: relative;
+      padding: 5px 0 10px 0;
+      text-align: right;
+    }
+    .search-form .total-count {
+      position: absolute;
+      left: 0; top: 0;
+      height: 20px;
+      float: left;
+    }
+
+    .pager {
+      margin-top: 20px;
+      text-align: center;
+    }
+    .pager a.on {
+      font-weight: bold;
+      color: red;
+    }
+  </style>
+</head>
+<body>
+<h1>관리자 주문도서 관리</h1>
+<div th:replace="/fragments/layout.html :: fragment-admin-body-menu"></div>
+
+<hr>
+<div class="list">
+
+  <div class="search-form">
+    <p class="total-count">전체 <span th:text="${totalCount}"></span>개</p>
+
+    <form method="get">
+      <select name="searchType">
+        <option value="all">전체</option>
+        <option th:selected="${#strings.equals(param.searchType, 'status')}" value="status">상태</option>
+        <option th:selected="${#strings.equals(param.searchType, 'id')}" value="id">핸드폰번호</option>
+        <option th:selected="${#strings.equals(param.searchType, 'nickName')}" value="nickName">닉네임</option>
+      </select>
+      <input th:value="${param.searchValue}" type="search" name="searchValue" placeholder="검색어 입력"/>
+      <button type="submit">검색</button>
+    </form>
+  </div>
+
+  <table>
+    <thead>
+    <tr>
+      <th>
+        아이디(핸드폰번호)
+      </th>
+      <th>
+        닉네임
+      </th>
+      <th>
+        도서제목
+      </th>
+      <th>
+        ISBN
+      </th>
+      <th>
+        수량
+      </th>
+      <th>
+        신청일자
+      </th>
+      <th>
+        상태
+      </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="x : ${list}">
+      <td>
+        <a th:text="${x.id}"
+          satcop@naver.com</a>
+      </td>
+      <td th:text="${x.nickName}">홍길동</td>
+      <td>
+        <p th:text="${x.bookName}">어린왕자</p>
+      </td>
+      <td>
+      <p th:text="${x.isbn}">111-11</p>
+      </td>
+      <td>
+        <p th:text="${x.count}">1</p>
+      </td>
+      <td>
+        <p th:text="${x.orderDate}">2022-11-01</p>
+      </td>
+      <td>
+        <p>
+          현재상태: <span th:text="${x.status}"></span>
+        </p>
+        <div>
+          <form method="post" action="/admin/orderbook/status.do">
+            <input th:value="${x.no}" type="hidden" name="no"/>
+            <select name="orderStatus">
+              <option value="REQ">신청</option>
+              <option value="ACC">수락</option>
+              <option value="REF">거절</option>
+              <option value="ING">주문중</option>
+              <option value="SUCC">판매완료</option>
+            </select>
+            <button type="submit">상태 변경</button>
+          </form>
+        </div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+
+  <div class="pager" th:utext="${pager}">
+  </div>
+
+
+</div>
+
+
+</body>
+</html>

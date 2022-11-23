@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bookshop.bookshopmanager.admin.main.mapper.AdminOrderBookMapper">
+
+    <sql id="OrderBookSelectListWhere">
+        <if test="searchType != null and searchValue != null">
+            <choose>
+                <when test="searchType == 'userId'">
+                    and b.id like concat('%', #{searchValue}, '%')
+                </when>
+                <when test="searchType == 'userName'">
+                    and b.nick_name like concat('%', #{searchValue}, '%')
+                </when>
+                <when test="searchType == 'status'">
+                    and a.status in (#{searchValue})
+                </when>
+                <otherwise>
+                    and
+                    (
+                    b.id like concat('%', #{searchValue}, '%')
+                    or
+                    b.nick_name like concat('%', #{searchValue}, '%')
+                    or
+                    a.status in (#{searchValue})
+                    )
+                </otherwise>
+            </choose>
+        </if>
+
+    </sql>
+
+    <select id="getOrderBookListCount" resultType="long">
+        select count(1)
+        from book_order a, member b, book c
+        where a.user_no = b.no
+        and a.isbn = c.isbn
+            <include refid="OrderBookSelectListWhere"/>
+    </select>
+
+    <select id="getOrderBookList" resultType="com.bookshop.bookshopmanager.admin.main.dto.OrderBookDto">
+        select a.no no, b.id id, b.nick_name nick_name,
+        c.title book_name, a.isbn isbn, a.count count,
+        a.order_date order_date, a.status status, a.user_no user_no
+        from book_order a, member b, book c
+        where a.user_no = b.no
+        and a.isbn = c.isbn
+        order by a.no
+            <include refid="OrderBookSelectListWhere"/>
+
+        limit #{pageStart}, #{pageEnd}
+    </select>
+
+</mapper>
